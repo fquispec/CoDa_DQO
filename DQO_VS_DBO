@@ -2,12 +2,12 @@
 
 rm(list = ls())
 library(graphics); library(compositions); library(mgcv);
-setwd("C:/Users/Alejandro/Desktop/poderosa/CoDa")
+setwd("C:/......Da")
 
 
 file2<-"CoDa.csv"; 
 data2<-read.csv(file=file2, header=TRUE, sep = ";", dec = "."); 
-kk<-4
+kk<-5
 
 ## 1.0 Programación
 xx<-data2[,c(6:7)]; year<-data2[,4]; 
@@ -20,6 +20,12 @@ zzz1<-ilrInv(array(cbind(gam1.pred),dim = c(length(gam1.pred),1)),VV)
 DQO_M=zzz1[,1]
 DQOXX=DQO_M*10000
 
+summary(gam1)
+
 plot(data2[,4],DQOXX,xlab="DBO",ylab="DQO",pch=1)
 points(data2[,4],data2[,6],col="blue",pch=3)
 legend("topright",legend=c("GAM","valor"),col=c("black","blue"),pch=c(1,3))
+
+data3=cbind(data2,CoDa_GAM=DQOXX)
+write.csv(data3,file="C:/Users/......./data3.csv",sep=";",dec = ".")
+

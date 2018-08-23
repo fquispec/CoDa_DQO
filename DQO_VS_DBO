@@ -1,0 +1,25 @@
+#CoDa_DQO
+
+rm(list = ls())
+library(graphics); library(compositions); library(mgcv);
+setwd("C:/Users/Alejandro/Desktop/poderosa/CoDa")
+
+
+file2<-"CoDa.csv"; 
+data2<-read.csv(file=file2, header=TRUE, sep = ";", dec = "."); 
+kk<-4
+
+## 1.0 Programación
+xx<-data2[,c(6:7)]; year<-data2[,4]; 
+xx<-as.matrix(xx)
+signs <- rbind (c( 1, -1));VV=gsi.buildilrBase(t(signs))
+dd   <- unclass(ilr(xx,VV))
+LNDBO=year
+gam1 <- gam(dd[,1] ~ s(LNDBO,k=kk), family=gaussian);     gam1.pred <- predict.gam(gam1)
+zzz1<-ilrInv(array(cbind(gam1.pred),dim = c(length(gam1.pred),1)),VV)
+DQO_M=zzz1[,1]
+DQOXX=DQO_M*10000
+
+plot(data2[,4],DQOXX,xlab="DBO",ylab="DQO",pch=1)
+points(data2[,4],data2[,6],col="blue",pch=3)
+legend("topright",legend=c("GAM","valor"),col=c("black","blue"),pch=c(1,3))

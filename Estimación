@@ -1,0 +1,31 @@
+rm(list = ls())
+library(graphics); library(compositions); library(mgcv); library(hydroGOF)
+setwd("C:/........")
+
+
+file2<-"CoDa2.csv"; 
+data2<-read.csv(file=file2, header=TRUE, sep = ";", dec = "."); 
+kk<-5
+
+## 1.0 Programación
+xx<-data2[,c(8:9)]; ejex<-data2[,5]; 
+xx<-as.matrix(xx)
+signs <- rbind (c( 1, -1));VV=gsi.buildilrBase(t(signs))
+dd <- unclass(ilr(xx,VV))
+gam1 <- gam(dd[,1] ~ s(ejex,k=kk), family=gaussian);     
+#summary(gam1)
+
+fili=cbind(ejex=data2[1:21,12])
+fili2=data.frame(fili)
+
+gam1.pred=predict.gam(gam1,newdata=fili2)
+gam1.pred
+zzz1<-ilrInv(array(cbind(gam1.pred),dim = c(length(gam1.pred),1)),VV)
+DQO_M=zzz1[,1]
+DQOXX=DQO_M*10000
+DQOXX
+summary(gam1)
+
+plot(data2[,4],DQOXX,xlab="LNDBO",ylab="DQO",pch=1)
+points(data2[,4],data2[,6],col="blue",pch=3)
+legend("topright",legend=c("GAM","valor"),col=c("black","blue"),pch=c(1,3))

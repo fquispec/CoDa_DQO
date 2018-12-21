@@ -26,7 +26,7 @@ points(data2[,5],data2[,6],col="blue",pch=3)
 legend("topright",legend=c("GAM","valor"),col=c("black","blue"),pch=c(1,3))
 
 data2=cbind(data2,CoDa_GAM=DQOXX)
-write.csv(data2,file="C:/...../xxx.csv",sep = ";", dec = ".")
+write.csv(data2,file="xxx.csv",sep = ";", dec = ".")#automáticamente manda al directorio inicial el archivo
 
 ###PRUEBAS DE CALIDAD
 file2<-"fili2.csv"; 
